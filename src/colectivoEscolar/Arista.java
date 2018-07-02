@@ -1,6 +1,6 @@
 package colectivoEscolar;
 
-public class Arista {
+public class Arista implements Comparable<Arista>{
 	private int no;
 	private int nd;
 	private int value;
@@ -35,5 +35,10 @@ public class Arista {
 
 	public void setNd(int nd) {
 		this.nd = nd;
+	}
+
+	@Override
+	public int compareTo(Arista o) {
+		return (this.value - o.value);
 	}
 }

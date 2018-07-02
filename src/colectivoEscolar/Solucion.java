@@ -24,7 +24,7 @@ public class Solucion {
 		Dijkstra d = new Dijkstra(s.getMatNoDirigida());
 		d.dijkstra(s.inicio);
 		LinkedBlockingQueue<Arista> camino = (LinkedBlockingQueue<Arista>) d.obtenerCamino(s.escuela);
-		s.verificarCamino( camino );
+		s.verificarCamino(camino);
 		//s.imprimir();
 	}
 
@@ -67,10 +67,9 @@ public class Solucion {
 	 */
 	private void verificarCamino(LinkedBlockingQueue<Arista> camino) {
 		Arista aux;
-		while( ! camino.isEmpty() )
-		{
+		while (!camino.isEmpty()) {
 			aux = camino.poll();
-			System.out.println( aux.getNo() + " " + aux.getNd() + " " + aux.getValue());
+			System.out.println( (aux.getNo() + 1) + " " + (aux.getNd() + 1 )+ " " + aux.getValue());
 		}
 	}
 
@@ -81,15 +80,14 @@ public class Solucion {
 	private void imprimir() {
 		try {
 			PrintWriter writer = new PrintWriter(new File("cambios.out"));
-			writer.print( this.distancia );
-			for(Arista item : this.cambios) {
-				writer.print( item.getNo() + " " + item.getNd() );
+			writer.print(this.distancia);
+			for (Arista item : this.cambios) {
+				writer.print(item.getNo() + " " + item.getNd());
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-	}
 
+	}
 
 }
