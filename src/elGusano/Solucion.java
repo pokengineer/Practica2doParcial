@@ -39,7 +39,7 @@ public class Solucion {
 			for (int i = 0; i < cPcInfectadas; i++) {
 				nd = sc.nextInt();
 				value = sc.nextInt();
-				infectadas.add(new PcInfectada(nd, value));
+				infectadas.add(new PcInfectada(nd-1, value));
 			}
 			sc.close();
 
@@ -68,7 +68,7 @@ public class Solucion {
 		int[] distancias;
 
 		for (Integer n : nodos) {
-			distancias = d.dijkstra(n);
+			distancias = d.dijkstra(n-1);
 			if (this.puedeSer(distancias))
 				this.posibles.add(n);
 		}
@@ -85,7 +85,17 @@ public class Solucion {
 	}
 
 	private void imprimir(String string) {
-		// imprime la lista de posibilidades en el archivo string
+		try {
+			PrintWriter pw = new PrintWriter(new File(string));
+			for( Integer item : this.posibles) {
+				System.out.println(item);
+				pw.print( item );
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void mostrarMatriz() {
