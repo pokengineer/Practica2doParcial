@@ -33,18 +33,18 @@ public class Solucion {
 		Solucion s = new Solucion("reserva.in");
 		s.resolver();
 		s.imprimir("reserva.out");
-
+		System.out.println("terminado");
 	}
 
 	private void resolver() {
-		Bfs bfs = new Bfs(this.mat);
-		this.caminos = bfs.numberOfPaths();
+		Dfs d = new Dfs(this.mat);
+		this.caminos = d.numberOfPaths( 0, mat.length-1);
 	}
 	
 	private void imprimir(String string) {
 		try {
 			FileWriter fw = new FileWriter( new File(string) );
-			fw.write(this.caminos);
+			fw.write("" + this.caminos);
 			fw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
