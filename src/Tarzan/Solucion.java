@@ -5,10 +5,12 @@ import java.util.*;
 
 public class Solucion {
 	private int[][] mat;
-	private Stack<Nodo> caminoFinal;
+	private Camino caminoFinal;
 	private int nodoFinal;
+	private ArrayList<Arista> saltosTurbo;
 
 	public Solucion(String string) {
+		this.saltosTurbo = new ArrayList<Arista>();
 		ArrayList<Arista> aristas = new ArrayList<Arista>();
 		ArrayList<Arbol> arboles = new ArrayList<Arbol>();
 		/////////// lo cargo ///////////
@@ -26,7 +28,7 @@ public class Solucion {
 						if (item.distancia(aux) <= 50) {
 							aristas.add(new Arista(item.getId(), aux.getId(), 1));
 						} else {
-							aristas.add(new Arista(item.getId(), aux.getId(), 1000));
+							this.saltosTurbo.add( new Arista(item.getId(), aux.getId(), 1000) );
 						}
 					}
 				}
@@ -52,15 +54,29 @@ public class Solucion {
 		s.imprimir("tarzan.out");
 	}
 
-	private void imprimir(String string) {
-		// imprimir camino final
-	}
-
 	private void resolver() {
 		Dijkstra d = new Dijkstra(this.mat);
-
-		// por cada arista de distancia 50-100 hago un dijkstra. me quedo con la mejor
-		// de esas soluciones
+		PriorityQueue<Camino> caminosPosibles = new PriorityQueue<Camino>();
+		
+		for(Arista turbo : this.saltosTurbo)
+		{
+			d.agregarArista(turbo);
+			caminosPosibles.add( d.dijkstra(0) );
+			d.quitarArista(turbo);
+		}
+		
+		this.caminoFinal = caminosPosibles.poll();
 	}
 
+	private void imprimir(String string) {
+		Queue<Arista> laPosta = this.caminoFinal.obtenerCamino();
+		Arista item;
+		while( ! laPosta.isEmpty() )
+		{
+			item = laPosta.poll();
+			System.out.println( item.getNo() + " " + item.getNd() );
+		}
+		// tiene que pasar por los nodos 0 - 4 - 5 - 6 - 7 - 10
+	}
+	
 }

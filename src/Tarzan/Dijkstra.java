@@ -15,19 +15,17 @@ public class Dijkstra {
 		this.mat = matNoDirigida.clone();
 		this.dist = new int[this.mat.length];
 		this.camino = new int[this.mat.length];
-		
-		for(int i = 0; i< mat.length; i++)
-		{
-			for(int j=0; j<mat.length; j++)
-			{
-				if( mat[i][j] == 0 )
+
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat.length; j++) {
+				if (mat[i][j] == 0)
 					mat[i][j] = INFINITO;
 			}
 		}
-		
+
 	}
 
-	public int[] dijkstra(int inicio) {
+	public Camino dijkstra(int inicio) {
 		this.inicio = inicio;
 		Set<Integer> nodosRestantes = new HashSet<Integer>();
 		// PriorityQueue<Arista> aristasRestantes = new PriorityQueue<Arista>();
@@ -37,7 +35,7 @@ public class Dijkstra {
 			if (this.mat[inicio][i] != 0) {
 				dist[i] = this.mat[inicio][i];
 				camino[i] = inicio;
-				// aristasRestantes.add(new Arista( inicio, i, this.mat[inicio][i]) );
+				// aristasRestantes.add( new Arista( inicio, i, this.mat[inicio][i]) );
 
 			} else {
 				dist[i] = INFINITO;
@@ -48,8 +46,9 @@ public class Dijkstra {
 		nodosRestantes.remove(inicio);
 
 		while (!nodosRestantes.isEmpty()) {
+
 			// busco minimo
-			int valorMinimo = INFINITO;
+			int valorMinimo = INFINITO + 1 ;
 			for (Integer item : nodosRestantes) {
 				if (dist[item] < valorMinimo) {
 					nodo = item;
@@ -57,8 +56,11 @@ public class Dijkstra {
 				}
 			}
 
+			// System.out.println(nodo);
+
 			// saco el que ya estoy recorriendo
 			nodosRestantes.remove(nodo);
+			
 
 			// me fijo si puedo mejorar algun camino desde aca
 			for (Integer item : nodosRestantes) {
@@ -68,21 +70,29 @@ public class Dijkstra {
 				}
 			}
 		}
-		return this.dist;
+		return new Camino( this.camino, this.dist );
 	}
 
 	public Queue<Arista> obtenerCamino(int escuela) {
 		LinkedBlockingQueue<Arista> camino = new LinkedBlockingQueue<Arista>();
 		int nodoEnElQueEstoyParado = escuela;
 		while (nodoEnElQueEstoyParado != inicio) {
-			camino.add(new Arista( 
-					this.camino[nodoEnElQueEstoyParado],
-					nodoEnElQueEstoyParado,
+			camino.add(new Arista(this.camino[nodoEnElQueEstoyParado], nodoEnElQueEstoyParado,
 					mat[this.camino[nodoEnElQueEstoyParado]][nodoEnElQueEstoyParado]));
-			
+
 			nodoEnElQueEstoyParado = this.camino[nodoEnElQueEstoyParado];
 		}
 		return camino;
+	}
+
+	public void agregarArista(Arista turbo) {
+		this.mat[turbo.getNd()][turbo.getNo()] = 1;
+		this.mat[turbo.getNo()][turbo.getNd()] = 1;
+	}
+
+	public void quitarArista(Arista turbo) {
+		this.mat[turbo.getNd()][turbo.getNo()] = 1000;
+		this.mat[turbo.getNo()][turbo.getNd()] = 1000;
 	}
 
 }
