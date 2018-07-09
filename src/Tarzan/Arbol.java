@@ -5,7 +5,6 @@ public class Arbol {
 	private int y;
 	private int id;
 
-
 	public Arbol(int x, int y, int id) {
 		this.x = x;
 		this.y = y;

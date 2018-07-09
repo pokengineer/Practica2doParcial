@@ -48,7 +48,7 @@ public class Dijkstra {
 		while (!nodosRestantes.isEmpty()) {
 
 			// busco minimo
-			int valorMinimo = INFINITO + 1 ;
+			int valorMinimo = INFINITO + 1;
 			for (Integer item : nodosRestantes) {
 				if (dist[item] < valorMinimo) {
 					nodo = item;
@@ -60,7 +60,6 @@ public class Dijkstra {
 
 			// saco el que ya estoy recorriendo
 			nodosRestantes.remove(nodo);
-			
 
 			// me fijo si puedo mejorar algun camino desde aca
 			for (Integer item : nodosRestantes) {
@@ -70,7 +69,7 @@ public class Dijkstra {
 				}
 			}
 		}
-		return new Camino( this.camino, this.dist );
+		return new Camino(this.camino, this.dist);
 	}
 
 	public Queue<Arista> obtenerCamino(int escuela) {
